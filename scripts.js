@@ -1,84 +1,111 @@
+// Players score
+let player = 0;
+let computer1 = 0;
 
-// Keeping tab on the scores //
-let playerScore = 0;
-let computerScore = 0;
+// Button event, calling the functions
+const paper = document.querySelector("#paper");
+paper.addEventListener("click", () => {
+  text("no");
+  playGame("paper");
+});
 
-// Figuring out the computer choice //
-// Getting a random number between 1 and 3 //
+const rock = document.querySelector("#rock");
+rock.addEventListener("click", () => {
+  text("no");
+  playGame("rock");
+});
 
+const scissors = document.querySelector("#scissors");
+scissors.addEventListener("click", () => {
+  text("no");
+  playGame("scissors");
+});
 
+// Updating the players score
+const container = document.querySelector("#container1");
 
+const playerScore = document.getElementById("player");
+const computerScore = document.getElementById("computer");
+
+playerScore.textContent = `Player: ${player}`;
+computerScore.textContent = `Computer: ${computer1}`;
+
+// Updating win and lose text
+function text(word) {
+  if (word === "no") {
+    container.textContent = "";
+  } else if (word === "tie") {
+    container.textContent = "It's a tie";
+  } else if (word === "win") {
+    container.textContent = "Player Wins";
+  } else if (word === "lose") {
+    container.textContent = "Computer Wins";
+  }
+}
+
+// Getting a random computer choice
 function getComputerChoice() {
-
-    // getting a random number between 1 and 3 //
-    let math = Math.floor(Math.random() * 3) + 1;
-    let computerChoice1;
-    if ( math === 1) {
-        computerChoice1 = "paper";
-    } else if (math === 2) {
-        computerChoice1 = "rock";
-    } else if (math === 3) {
-        computerChoice1 = "scissors";
-    }
-    return computerChoice1;
+  const getNumber = Math.floor(Math.random() * 3) + 1;
+  if (getNumber === 1) {
+    return "paper";
+  } else if (getNumber === 2) {
+    return "rock";
+  } else if (getNumber === 3) {
+    return "scissors";
+  }
 }
 
-// Figuring out the humanChoice choice //
-
-function getHumanChoice() {
-    let humanChoice1 = prompt("Whats up");
-    return humanChoice1;
+// Game starts and gets the result
+function playGame(btn) {
+  const computer = getComputerChoice();
+  if (btn === "paper" && computer === "rock") {
+    text("win");
+    player++;
+    playerScore.textContent = `Player: ${player}`;
+    endGame();
+  } else if (btn === "paper" && computer === "scissors") {
+    text("lose");
+    computer1++;
+    computerScore.textContent = `Computer: ${computer1}`;
+    endGame();
+  } else if (btn === "rock" && computer === "paper") {
+    text("lose");
+    computer1++;
+    computerScore.textContent = `Computer: ${computer1}`;
+    endGame();
+  } else if (btn === "rock" && computer === "scissors") {
+    text("win");
+    player++;
+    playerScore.textContent = `Player: ${player}`;
+    endGame();
+  } else if (btn === "scissors" && computer === "rock") {
+    text("lose");
+    computer1++;
+    computerScore.textContent = `Computer: ${computer1}`;
+    endGame();
+  } else if (btn === "scissors" && computer === "paper") {
+    text("win");
+    player++;
+    playerScore.textContent = `Player: ${player}`;
+    endGame();
+  } else {
+    text("tie");
+  }
 }
 
-// playing the round //
-
-function playRound(humanChoice1, computerChoice1) {
-    // The prompt by the user always gets to lower case //
-    humanChoice1 = humanChoice1.toLowerCase();
-
-// if else to play around all the different choices //
-    if (humanChoice1 === "paper" && computerChoice1 === "paper"){
-        console.log("It's a tie")
-// added the score to the board //
-        playerScore++
-        computerScore++
-    } else if (humanChoice1 === "paper" && computerChoice1 === "rock") {
-        console.log("You win");
-        playerScore++
-    } else if (humanChoice1 === "paper" && computerChoice1 === "scissors") {
-        console.log("You lost");
-        computerScore++
-    } else if (humanChoice1 === "rock" && computerChoice1 === "paper") {
-        console.log("You lose");
-        computerScore++
-    } else if (humanChoice1 === "rock" && computerChoice1 === "scissors") {
-        console.log("You win");
-        playerScore++
-    } else if (humanChoice1 === "scissors" && computerChoice1 === "paper") {
-        console.log("You win");
-        playerScore++
-    } else if (humanChoice1 === "scissors" && computerChoice1 === "rock") {
-        console.log("You lose");
-        computerScore++
-    }
-        
-} 
-
-// Playing the game //
-
-function playJanken () {
-
-// looping the game to play it 5 times //
-    for (let i = 0; i < 5; i++) {
-        const human = getHumanChoice();
-        const computer = getComputerChoice();
-        playRound(human, computer);
-    }
-    
-// showing the score to the players
-    console.log("It's over")
-    console.log("Player Score:", playerScore)
-    console.log("Computer Score", computerScore)
+// Game ends when someone gets to 5 points
+function endGame() {
+  if (player === 5) {
+    alert("You Won the Game");
+    player = 0;
+    computer1 = 0;
+    playerScore.textContent = `Player: 0`;
+    computerScore.textContent = `Computer: 0`;
+  } else if (computer1 === 5) {
+    alert("You Lost the Game");
+    player = 0;
+    computer1 = 0;
+    playerScore.textContent = "Player: 0";
+    computerScore.textContent = "Computer: 0";
+  }
 }
-
-playJanken();
